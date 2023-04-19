@@ -5,7 +5,7 @@ on:
     inputs:
       fetch_depth:
         description: "Commit depth to checkout to scan for previous release tags"
-        default: 100
+        default: 0
         type: number
       bump_each_commit:
         description: "Bump each commit as a patch version"
@@ -14,6 +14,10 @@ on:
     secrets:
       CHECKOUT_TOKEN:
         required: true
+    outputs:
+      version:
+        description: "New version"
+        value: ${{ jobs.verify-create-new-tag.outputs.version }}
 
 jobs:
   verify-create-new-tag:
@@ -21,6 +25,8 @@ jobs:
       contents: write
       packages: write
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-next-semantic-version.outputs.version }}
     steps:
       - uses: actions/checkout@v3
         with:
