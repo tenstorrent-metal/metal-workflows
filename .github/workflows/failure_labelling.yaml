@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Status Check
-        echo "hi"
+        run: echo "hi"
         # id: check_status
         # uses: actions/github-script@latest
         # with:
