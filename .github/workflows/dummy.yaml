@@ -13,35 +13,37 @@ jobs:
       fail-fast: false
       matrix:
         arch: [grayskull, wormhole_b0]
-    env:
-      TT_METAL_ENV: ${{ vars.TT_METAL_ENV }}
-      ARCH_NAME: ${{ matrix.arch }}
     environment: dev
     runs-on: ${{ matrix.arch }}
     steps:
-      - uses: actions/github-script@latest
-        with:
-          submodules: recursive
-          token: ${{ secrets.CHECKOUT_TOKEN }}
-          lfs: true
-      - name: Set up dyanmic env vars for build
+      - name: Initialize repository
+        run: |
+          echo "Simulating initializing the repository with submodules and LFS"
+      - name: Set up dynamic env vars for build
         run: |
           echo "TT_METAL_HOME=$(pwd)" >> $GITHUB_ENV
       - name: Build tt-metal and libs
-        run: exit 1
+        run: |
+          echo "Simulating building tt-metal and libs (replace this with actual build commands)"
+          exit 1  # Dummy failure for the purpose of the example
       - name: Build tt-metal CPP tests
-        run: echo "weird should not get here"
+        run: |
+          echo "Simulating building tt-metal CPP tests (replace this with actual build commands)"
       - name: Run pre/post regression tests
         timeout-minutes: 60
-        run: echo "weird should not get here_1"
+        run: |
+          echo "Simulating running pre/post regression tests (replace this with actual test commands)"
+          echo "weird should not get here"
+
   check-syseng-assets:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@latest
-        with:
-          token: ${{ secrets.CHECKOUT_TOKEN }}
+      - name: Initialize repository
+        run: |
+          echo "Simulating initializing the repository"
       - name: Check asset download script
         env:
           GITHUB_TOKEN: ${{ secrets.CHECKOUT_TOKEN }}
         run: |
+          echo "Simulating checking asset download script"
           echo "clean up here"
