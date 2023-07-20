@@ -19,7 +19,7 @@ jobs:
     environment: dev
     runs-on: ${{ matrix.arch }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/github-script@latest
         with:
           submodules: recursive
           token: ${{ secrets.CHECKOUT_TOKEN }}
@@ -37,7 +37,7 @@ jobs:
   check-syseng-assets:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/github-script@latest
         with:
           token: ${{ secrets.CHECKOUT_TOKEN }}
       - name: Check asset download script
