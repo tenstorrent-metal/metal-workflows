@@ -35,7 +35,7 @@ jobs:
               console.log('The workflow was successful! ');
             } else if (status === 'failure') {
               // Add your actions for a failed workflow completion here
-              console.log('The workflow failed!');
+              console.log('The workflow failed! ');
               console.log('The failed steps are:', failedSteps);
             } else {
               console.log('The workflow encountered an unknown outcome.');
