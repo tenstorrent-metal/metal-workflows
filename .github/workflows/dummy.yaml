@@ -1,0 +1,42 @@
+name: "dummy_workflow"
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["labelling"]
+
+jobs:
+  build-and-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Initialize repository
+        run: |
+          echo "Simulating initializing the repository with submodules and LFS"
+      - name: Set up dynamic env vars for build
+        run: |
+          echo "TT_METAL_HOME=$(pwd)" >> $GITHUB_ENV
+      - name: Build tt-metal and libs
+        run: |
+          echo "Simulating building tt-metal and libs (replace this with actual build commands)"
+          exit 1  # Dummy failure for the purpose of the example
+      - name: Build tt-metal CPP tests
+        run: |
+          echo "Simulating building tt-metal CPP tests (replace this with actual build commands)"
+      - name: Run pre/post regression tests
+        timeout-minutes: 60
+        run: |
+          echo "Simulating running pre/post regression tests (replace this with actual test commands)"
+          echo "weird should not get here"
+
+  check-syseng-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Initialize repository
+        run: |
+          echo "Simulating initializing the repository"
+      - name: Check asset download script
+        env:
+          GITHUB_TOKEN: ${{ secrets.CHECKOUT_TOKEN }}
+        run: |
+          echo "Simulating checking asset download script"
+          echo "clean up here"
