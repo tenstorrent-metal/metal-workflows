@@ -1,7 +1,7 @@
 name: "[BUILD FAILED] Labelling Corrections"
 on:
   workflow_run:
-    workflows: ["xdummy.yaml"]
+    workflows: ["dummy_workflow"]
     types:
       - completed
 
