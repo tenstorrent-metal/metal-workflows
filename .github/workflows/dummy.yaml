@@ -1,0 +1,47 @@
+name: "[post-commit] all - Post-commit main build and unit tests"
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["labelling"]
+
+jobs:
+  build-and-unit-tests:
+    strategy:
+      # Do not fail-fast because we need to ensure all tests go to completion
+      # so we try not to get hanging machines
+      fail-fast: false
+      matrix:
+        arch: [grayskull, wormhole_b0]
+    env:
+      TT_METAL_ENV: ${{ vars.TT_METAL_ENV }}
+      ARCH_NAME: ${{ matrix.arch }}
+    environment: dev
+    runs-on: ${{ matrix.arch }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          token: ${{ secrets.CHECKOUT_TOKEN }}
+          lfs: true
+      - name: Set up dyanmic env vars for build
+        run: |
+          echo "TT_METAL_HOME=$(pwd)" >> $GITHUB_ENV
+      - name: Build tt-metal and libs
+        run: exit 1
+      - name: Build tt-metal CPP tests
+        run: echo "weird should not get here"
+      - name: Run pre/post regression tests
+        timeout-minutes: 60
+        run: echo "weird should not get here_1"
+  check-syseng-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.CHECKOUT_TOKEN }}
+      - name: Check asset download script
+        env:
+          GITHUB_TOKEN: ${{ secrets.CHECKOUT_TOKEN }}
+        run: |
+          echo "clean up here"
