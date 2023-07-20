@@ -1,7 +1,7 @@
 name: "[BUILD FAILED] Labelling Corrections"
 on:
   workflow_run:
-    workflows: [dummy_workflow]
+    workflows: ["xdummy.yaml"]
     types:
       - completed
 
@@ -11,32 +11,33 @@ jobs:
 
     steps:
       - name: Status Check
-        id: check_status
-        uses: actions/github-script@latest
-        with:
-          script: |
-            const workflowStatus = ${{ toJSON(github.event.workflow_run) }};
-            const status = workflowStatus.conclusion;
-            const workflowId = workflowStatus.id;
-            console.log(`The status of the completed workflow is: ${status}`);
+        echo "hi"
+        # id: check_status
+        # uses: actions/github-script@latest
+        # with:
+        #   script: |
+        #     const workflowStatus = ${{ toJSON(github.event.workflow_run) }};
+        #     const status = workflowStatus.conclusion;
+        #     const workflowId = workflowStatus.id;
+        #     console.log(`The status of the completed workflow is: ${status}`);
 
-            // Fetch the logs for the previous workflow run
-            const response = await octokit.actions.listWorkflowRunJobs({
-              owner: github.context.payload.repository.owner.login,
-              repo: github.context.payload.repository.name,
-              run_id: workflowId,
-            });
+        #     // Fetch the logs for the previous workflow run
+        #     const response = await octokit.actions.listWorkflowRunJobs({
+        #       owner: github.context.payload.repository.owner.login,
+        #       repo: github.context.payload.repository.name,
+        #       run_id: workflowId,
+        #     });
 
-            // Check for failed steps
-            const failedSteps = response.data.jobs.filter(job => job.conclusion === 'failure').map(job => job.name);
+        #     // Check for failed steps
+        #     const failedSteps = response.data.jobs.filter(job => job.conclusion === 'failure').map(job => job.name);
 
-            if (status === 'success') {
-              // Add your actions for a successful workflow completion here
-              console.log('The workflow was successful!');
-            } else if (status === 'failure') {
-              // Add your actions for a failed workflow completion here
-              console.log('The workflow failed!');
-              console.log('The failed steps are:', failedSteps);
-            } else {
-              console.log('The workflow encountered an unknown outcome.');
-            }
+        #     if (status === 'success') {
+        #       // Add your actions for a successful workflow completion here
+        #       console.log('The workflow was successful!');
+        #     } else if (status === 'failure') {
+        #       // Add your actions for a failed workflow completion here
+        #       console.log('The workflow failed!');
+        #       console.log('The failed steps are:', failedSteps);
+        #     } else {
+        #       console.log('The workflow encountered an unknown outcome.');
+        #     }
