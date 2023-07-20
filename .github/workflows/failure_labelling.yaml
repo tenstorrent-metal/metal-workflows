@@ -1,4 +1,4 @@
-name: "[BUILD FAILED] Labelling Corrections"
+name: "[BUILD FAILED] Labelling_Corrections"
 on:
   workflow_run:
     workflows: ["dummy_workflow"]
@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Status Check
         id: check_status
-        uses: actions/checkout@v3
+        uses: actions/github-script@5.3.0
         with:
           script: |
             const workflowStatus = ${{ toJSON(github.event.workflow_run) }};
@@ -32,7 +32,7 @@ jobs:
 
             if (status === 'success') {
               // Add your actions for a successful workflow completion here
-              console.log('The workflow was successful!');
+              console.log('The workflow was successful! ');
             } else if (status === 'failure') {
               // Add your actions for a failed workflow completion here
               console.log('The workflow failed!');
