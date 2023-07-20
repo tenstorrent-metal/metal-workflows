@@ -1,11 +1,9 @@
 name: "[BUILD FAILED] Labelling Corrections"
 on:
   workflow_run:
-    workflows: ["[post-commit] all - Post-commit main build and unit tests"] # Replace with the name of the workflow you want to monitor
+    workflows: ["[post-commit] all - Post-commit main build and unit tests"]
     types:
       - completed
-    branches:
-      - labelling
 
 jobs:
   detect_completion:
