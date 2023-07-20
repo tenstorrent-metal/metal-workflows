@@ -1,7 +1,7 @@
 name: "[BUILD FAILED] Labelling Corrections"
 on:
   workflow_run:
-    workflows: [[post-commit] all - Post-commit main build and unit tests]
+    workflows: [dummy_workflow]
     types:
       - completed
 
