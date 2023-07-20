@@ -32,7 +32,7 @@ jobs:
 
             if (status === 'success') {
               // Add your actions for a successful workflow completion here
-              console.log('The workflow was successful!');
+              console.log('The workflow was successful! ');
             } else if (status === 'failure') {
               // Add your actions for a failed workflow completion here
               console.log('The workflow failed!');
