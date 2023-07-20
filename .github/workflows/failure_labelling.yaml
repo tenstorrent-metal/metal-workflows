@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Status Check
         id: check_status
-        uses: actions/github-script@latest
+        uses: actions/checkout@v3
         with:
           script: |
             const workflowStatus = ${{ toJSON(github.event.workflow_run) }};
