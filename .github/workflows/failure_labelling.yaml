@@ -11,8 +11,7 @@ jobs:
 
     steps:
       - name: Status Check
-        run: | 
-        echo "entering check_status"
+        run: |
         id: check_status
         uses: actions/github-script@latest
         with:
