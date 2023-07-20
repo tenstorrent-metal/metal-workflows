@@ -16,10 +16,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
 
       - name: Install Octokit
-        run: npm install @octokit/core
+        run: npm install @octokit/action
         
       - name: Status Check
         id: check_status
@@ -30,6 +30,10 @@ jobs:
             const status = workflowStatus.conclusion;
             const workflowId = workflowStatus.id;
             console.log(`The status of the completed workflow is: ${status}`);
+            const { Octokit } = require("@octokit/action");
+            const octokit = new Octokit({
+              auth: process.env.GITHUB_TOKEN,
+            });
 
             // Fetch the logs for the previous workflow run
             const response = await octokit.actions.listWorkflowRunJobs({
