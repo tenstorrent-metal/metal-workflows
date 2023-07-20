@@ -7,14 +7,7 @@ on:
 
 jobs:
   build-and-unit-tests:
-    strategy:
-      # Do not fail-fast because we need to ensure all tests go to completion
-      # so we try not to get hanging machines
-      fail-fast: false
-      matrix:
-        arch: [grayskull, wormhole_b0]
-    environment: dev
-    runs-on: ${{ matrix.arch }}
+    runs-on: ubuntu-latest
     steps:
       - name: Initialize repository
         run: |
