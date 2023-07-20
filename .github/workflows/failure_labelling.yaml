@@ -1,4 +1,4 @@
-name: "[BUILD FAILED] Labelling Corrections"
+name: "[BUILD FAILED] Labelling_Corrections"
 on:
   workflow_run:
     workflows: ["dummy_workflow"]
