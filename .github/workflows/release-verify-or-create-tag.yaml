@@ -11,6 +11,10 @@ on:
         description: "Bump each commit as a patch version"
         default: true
         type: boolean
+      release_candidate_suffix:
+        description: "Attach -rc# suffix to version number"
+        default: false
+        type: boolean
     secrets:
       CHECKOUT_TOKEN:
         required: true
@@ -26,25 +30,42 @@ jobs:
       packages: write
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.get-next-semantic-version.outputs.version }}
+      version: ${{ steps.get-version-number.outputs.version }}
     steps:
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.CHECKOUT_TOKEN }}
           fetch-depth: ${{ inputs.fetch_depth }}
       - uses: paulhatch/semantic-version@v5.0.2
-        id: get-next-semantic-version
+        id: get-next-semantic-base-version
         with:
           tag_prefix: "v"
           version_format: "v${major}.${minor}.${patch}"
           bump_each_commit: ${{ inputs.bump_each_commit }}
+      - name: Get release candidate version
+        id: get-release-candidate-version
+        run: |
+          baseVersion=${{ steps.get-next-semantic-base-version.outputs.version }}
+          currentNumberRCs=$(git tag | grep "$baseVersion"-rc | wc -l)
+          newNumber=$(($currentNumberRCs+1))
+          releaseCandidateVersion=$baseVersion-rc$newNumber
+          echo $releaseCandidateVersion
+          echo "release-candidate-version=$releaseCandidateVersion" >> "$GITHUB_OUTPUT"
+      - name: Get full version number
+        id: get-version-number
+        run: |
+          versionNumber=${{ inputs.release_candidate_suffix &&
+          steps.get-release-candidate-version.outputs.release-candidate-version ||
+          steps.get-next-semantic-base-version.outputs.version }}
+          echo "version=$versionNumber" >> "$GITHUB_OUTPUT"
+          echo "$versionNumber"
       - name: Create tag
         uses: actions/github-script@v6
         with:
           script: |
             const owner = "${{ github.repository_owner }}";
             const repo = "${{ github.repository }}".split('/')[1];
-            const version = "${{ steps.get-next-semantic-version.outputs.version }}";
+            const version = "${{ steps.get-version-number.outputs.version }}";
             const sha = "${{ github.sha }}";
             const matchingTags = await github.rest.git.listMatchingRefs({
               owner,

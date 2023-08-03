@@ -1,0 +1,33 @@
+name: Release tagging test flow
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump_each_commit:
+        description: "Bump each commit as a patch version"
+        default: false
+        type: boolean
+      release_candidate_suffix:
+        description: "Attach -rc# suffix to version number"
+        default: true
+        type: boolean
+
+jobs:
+  get-test-version:
+    permissions:
+      contents: write
+      packages: write
+    uses: ./.github/workflows/release-verify-or-create-tag.yaml
+    with:
+      fetch_depth: 0
+      bump_each_commit: ${{ inputs.bump_each_commit || false }}
+      release_candidate_suffix: ${{ inputs.release_candidate_suffix || true }}
+    secrets:
+      CHECKOUT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  output-version:
+    needs: get-test-version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output version from workflow call
+        run: echo ${{ needs.get-test-version.outputs.version }}
+
