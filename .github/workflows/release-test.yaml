@@ -20,8 +20,8 @@ jobs:
     uses: ./.github/workflows/release-verify-or-create-tag.yaml
     with:
       fetch_depth: 0
-      bump_each_commit: ${{ inputs.bump_each_commit || false }}
-      release_candidate_suffix: ${{ inputs.release_candidate_suffix || true }}
+      bump_each_commit: ${{ inputs.bump_each_commit }}
+      release_candidate_suffix: ${{ inputs.release_candidate_suffix }}
     secrets:
       CHECKOUT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   output-version:
