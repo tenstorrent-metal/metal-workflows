@@ -72,7 +72,7 @@ jobs:
               const { data: matchingTags } = await github.rest.git.getRef({
                 owner,
                 repo,
-                ref: `refs/tags/${version}`,
+                ref: `tags/${version}`,
               });
               console.log("Tag already exists");
             } catch (e) {
@@ -103,6 +103,7 @@ jobs:
                 });
               } else {
                 console.error(e);
-                throw new Error("Received an error that's not 404 Not Found for a tag");
+                console.error("Received an error that's not 404 Not Found for a tag");
+                throw e;
               }
             }
