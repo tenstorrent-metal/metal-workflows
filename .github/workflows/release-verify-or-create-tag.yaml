@@ -69,7 +69,7 @@ jobs:
             const sha = "${{ github.sha }}";
 
             try {
-              const { data: matchingTags } = await octokit.rest.git.getRef({
+              const { data: matchingTags } = await github.rest.git.getRef({
                 owner,
                 repo,
                 ref: `refs/tags/${version}`,
