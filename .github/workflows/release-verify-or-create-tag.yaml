@@ -67,28 +67,41 @@ jobs:
             const repo = "${{ github.repository }}".split('/')[1];
             const version = "${{ steps.get-version-number.outputs.version }}";
             const sha = "${{ github.sha }}";
-            const matchingTags = await github.rest.git.listMatchingRefs({
-              owner,
-              repo,
-              ref: `tags/${version}`,
-            });
-            if (matchingTags.data.length == 0) {
-              const tag = await github.rest.git.createTag({
-                owner: owner,
-                repo: repo,
-                tag: version,
-                message: `Release for ${version}`,
-                object: sha,
-                type: "commit",
-                tagger: {
-                  name: "Tenstorrent Inc.",
-                  email: "info@tenstorrent.com",
-                }
-              });
-              github.rest.git.createRef({
-                owner: owner,
-                repo: repo,
+
+            try {
+              const { data: matchingTags } = await octokit.rest.git.getRef({
+                owner,
+                repo,
                 ref: `refs/tags/${version}`,
-                sha: tag.data.sha,
               });
+            } catch (e) {
+              const { response: { status, data: { message } } } = e;
+
+              const isMissingTag = status === 404 && message == "Not Found";
+
+              if (isMissingTag) {
+                const tag = await github.rest.git.createTag({
+                  owner: owner,
+                  repo: repo,
+                  tag: version,
+                  message: `Release for ${version}`,
+                  object: sha,
+                  type: "commit",
+                  tagger: {
+                    name: "Tenstorrent Inc.",
+                    email: "info@tenstorrent.com",
+                  }
+                });
+                github.rest.git.createRef({
+                  owner: owner,
+                  repo: repo,
+                  ref: `refs/tags/${version}`,
+                  sha: tag.data.sha,
+                });
+              } else {
+                console.error(e);
+                throw new Error("Received an error that's not 404 Not Found for a tag");
+              }
             }
+
+            console.log("Tag already exists");
