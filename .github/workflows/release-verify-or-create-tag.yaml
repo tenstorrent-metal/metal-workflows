@@ -69,12 +69,15 @@ jobs:
             const sha = "${{ github.sha }}";
 
             try {
-              const { data: matchingTags } = await octokit.rest.git.getRef({
+              const { data: matchingTags } = await github.rest.git.getRef({
                 owner,
                 repo,
-                ref: `refs/tags/${version}`,
+                ref: `tags/${version}`,
               });
+              console.log("Tag already exists");
             } catch (e) {
+              console.log("Logging github API error");
+              console.log(e);
               const { response: { status, data: { message } } } = e;
 
               const isMissingTag = status === 404 && message == "Not Found";
@@ -100,8 +103,7 @@ jobs:
                 });
               } else {
                 console.error(e);
-                throw new Error("Received an error that's not 404 Not Found for a tag");
+                console.error("Received an error that's not 404 Not Found for a tag");
+                throw e;
               }
             }
-
-            console.log("Tag already exists");
