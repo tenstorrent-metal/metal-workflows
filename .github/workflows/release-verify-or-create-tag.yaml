@@ -74,6 +74,7 @@ jobs:
                 repo,
                 ref: `refs/tags/${version}`,
               });
+              console.log("Tag already exists");
             } catch (e) {
               console.log("Logging github API error");
               console.log(e);
@@ -105,5 +106,3 @@ jobs:
                 throw new Error("Received an error that's not 404 Not Found for a tag");
               }
             }
-
-            console.log("Tag already exists");
