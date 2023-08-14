@@ -11,6 +11,8 @@ on:
         description: "Attach -rc# suffix to version number"
         default: true
         type: boolean
+  push:
+    branches: ["release"]
 
 jobs:
   get-test-version:
