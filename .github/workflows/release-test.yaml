@@ -31,7 +31,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Output version from workflow call
-        run: |
-          echo "${{ needs.get-test-version.outputs.version }}" > changelog.txt
-          cat changelog.txt
+        run: echo ${{ needs.get-test-version.outputs.version }}
 

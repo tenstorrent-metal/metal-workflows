@@ -17,4 +17,4 @@ jobs:
           ignorePreReleases: true
           failOnError: true
       - name: Output changelog
-        run: echo ${{ steps.create-changelog.outputs.changelog }}
+        run: echo "${{ steps.create-changelog.outputs.changelog }}"
