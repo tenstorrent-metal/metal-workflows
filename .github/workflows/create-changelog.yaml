@@ -1,4 +1,4 @@
-name: Changelog create test flow
+name: Changelog creation test flow
 
 on:
   push:
