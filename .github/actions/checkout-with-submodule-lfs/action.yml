@@ -20,6 +20,13 @@ runs:
         fetch-depth: ${{ inputs.fetch-depth }}
         lfs: true
         submodules: recursive
+        clean: true
+    - name: Clean repo
+      shell: bash
+      run: git clean -xffd
+    - name: Clean each submodule
+      shell: bash
+      run: git submodule foreach 'git clean -xffd'
     - name: Fetch and pull LFS objects for each submodule
       shell: bash
       run: git submodule foreach 'git lfs fetch --all && git lfs pull'
