@@ -22,4 +22,4 @@ runs:
         submodules: recursive
     - name: Fetch and pull LFS objects for each submodule
       shell: bash
-      run: git submodule foreach 'git lfs fetch --all && git lfs pull'
+      run: git submodule foreach 'git lfs fetch && git lfs pull'
