@@ -5,6 +5,7 @@ inputs:
   token:
     description: "Token with which to do the checkout"
     required: true
+    default: ${{ github.token }}
   fetch-depth:
     description: "Fetch depth for checkout"
     required: true
