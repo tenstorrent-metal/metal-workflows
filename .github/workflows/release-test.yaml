@@ -24,8 +24,6 @@ jobs:
       fetch_depth: 0
       bump_each_commit: ${{ inputs.bump_each_commit }}
       release_candidate_suffix: ${{ inputs.release_candidate_suffix }}
-    secrets:
-      CHECKOUT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   output-version:
     needs: get-test-version
     runs-on: ubuntu-latest
