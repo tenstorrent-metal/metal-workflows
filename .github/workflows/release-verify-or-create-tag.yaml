@@ -18,6 +18,7 @@ on:
     secrets:
       CHECKOUT_TOKEN:
         required: true
+        default: ${{ github.token }}
     outputs:
       version:
         description: "New version"
