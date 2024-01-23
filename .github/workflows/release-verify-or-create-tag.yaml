@@ -15,10 +15,6 @@ on:
         description: "Attach -rc# suffix to version number"
         default: false
         type: boolean
-    secrets:
-      CHECKOUT_TOKEN:
-        description: "Optional token to checkout target repo to tag/release"
-        required: false
     outputs:
       version:
         description: "New version"
@@ -35,7 +31,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.CHECKOUT_TOKEN && github.token }}
           fetch-depth: ${{ inputs.fetch_depth }}
       - uses: paulhatch/semantic-version@v5.0.2
         id: get-next-semantic-base-version
