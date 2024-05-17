@@ -1,0 +1,24 @@
+name: "build and unit tests"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  checkout-with-submodules:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        pull-lfs: [true, false]
+        repository: ["${{ github.repository }}", "pytorch/pytorch"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/checkout-with-submodule-lfs
+        with:
+          pull-lfs: ${{ matrix.pull-lfs }}
+          repository: ${{ matrix.repository }}
